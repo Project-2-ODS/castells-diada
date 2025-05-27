@@ -28,12 +28,26 @@ public class DiadaService {
             throw new DiadaNotFoundException("Diada no encontrada");
         }
     }
-    //UPDATE
+    //UPDATE WITH PATCH
     public Diada updateDiadaDate(Long id, DiadaDTO diadaDTO){
-        Diada existingDiada = diadaRepository.findById(id).orElseThrow(()->new DiadaNotFoundException("Diada con id: "+id+" no encontrada."));
+        Diada existingDiada = diadaRepository.findById(id).orElseThrow(()->new DiadaNotFoundException("Diada con id: "+id+", no encontrada."));
         if (diadaDTO.getDiadaDate()!=null){
             existingDiada.setDiadaDate(diadaDTO.getDiadaDate());
         }
         return diadaRepository.save(existingDiada);
+    }
+    //UPDATE WITH PUT
+    public Diada updateDiadaAllInfo (Long id, Diada diada){
+        Diada existingDiada = diadaRepository.findById(id).orElseThrow(()->new DiadaNotFoundException("Diada con id: "+id+", no encontrada."));
+        existingDiada.setName(existingDiada.getName());
+        existingDiada.setDiadaDate(existingDiada.getDiadaDate());
+        existingDiada.setCapid(existingDiada.getCapid());
+        return diadaRepository.save(existingDiada);
+    }
+    //DELETE
+    public Diada deleteDiada(Long id){
+        Diada existingDiada = diadaRepository.findById(id).orElseThrow(()->new DiadaNotFoundException("Diada con id: "+id+", no encontrada."));
+        diadaRepository.delete(existingDiada);
+        return existingDiada;
     }
 }
