@@ -23,5 +23,5 @@ public class Diada {
     private String name;
     @NotNull
     private LocalDate diadaDate;
-    private Long capid;
+    private Long capId;
 }
