@@ -1,11 +1,13 @@
 package com.example.castells_diada.controllers;
 
 
+import com.example.castells_diada.exceptions.DiadaNotFoundException;
 import com.example.castells_diada.models.Diada;
 import com.example.castells_diada.services.DiadaService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -19,5 +21,15 @@ public class DiadaController {
     @ResponseStatus(HttpStatus.CREATED)
     public Diada createDiada(@RequestBody @Valid Diada diada){
         return diadaService.createDiada(diada);
+    }
+    //READ
+    @GetMapping("/{id}")
+    public ResponseEntity<?> getDiadaById(@PathVariable Long id){
+        try{
+            Diada foundDiada = diadaService.findDiadaById(id);
+            return new ResponseEntity<>(foundDiada, HttpStatus.OK);
+        }catch (DiadaNotFoundException exception){
+            return new ResponseEntity<>(exception.getMessage(), HttpStatus.NOT_FOUND);
+        }
     }
 }
