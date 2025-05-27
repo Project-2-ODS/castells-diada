@@ -29,12 +29,16 @@ public class DiadaService {
         }
     }
     //UPDATE WITH PATCH
-    public Diada updateDiadaDate(Long id, DiadaDTO diadaDTO){
-        Diada existingDiada = diadaRepository.findById(id).orElseThrow(()->new DiadaNotFoundException("Diada con id: "+id+", no encontrada."));
-        if (diadaDTO.getDiadaDate()!=null){
-            existingDiada.setDiadaDate(diadaDTO.getDiadaDate());
+    public Diada updateDiadaCapId(Long id, DiadaDTO diadaDTO){
+        Optional<Diada> existingDiada = diadaRepository.findById(id);
+        if (existingDiada.isPresent()){
+            Diada savedDiada = existingDiada.get();
+            savedDiada.setCapId(diadaDTO.getCapId());
+            return diadaRepository.save(savedDiada);
+        }else{
+            throw new DiadaNotFoundException("Diada con id: "+id+", no encontrada.");
         }
-        return diadaRepository.save(existingDiada);
+
     }
     //UPDATE WITH PUT
     public Diada updateDiadaAllInfo (Long id, Diada diada){

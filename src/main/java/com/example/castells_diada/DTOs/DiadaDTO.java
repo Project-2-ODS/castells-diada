@@ -14,6 +14,6 @@ import java.time.LocalDate;
 @NoArgsConstructor
 public class DiadaDTO {
 
-        private LocalDate diadaDate;
+        private Long capId;
 
 }

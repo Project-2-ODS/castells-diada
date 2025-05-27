@@ -1,6 +1,7 @@
 package com.example.castells_diada.controllers;
 
 
+import com.example.castells_diada.DTOs.DiadaDTO;
 import com.example.castells_diada.exceptions.DiadaNotFoundException;
 import com.example.castells_diada.models.Diada;
 import com.example.castells_diada.services.DiadaService;
@@ -32,4 +33,16 @@ public class DiadaController {
             return new ResponseEntity<>(exception.getMessage(), HttpStatus.NOT_FOUND);
         }
     }
+    //UPDATE
+    @PatchMapping("/{id}")
+    public ResponseEntity<?> updateDiadaCapId(@PathVariable Long id,@RequestBody DiadaDTO diadaDTO){
+        try {
+            Diada existingDiada = diadaService.updateDiadaCapId(id, diadaDTO);
+            return ResponseEntity.ok(existingDiada);
+        }catch (DiadaNotFoundException exception){
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body(exception.getMessage());
+        }
+    }
+
 }
