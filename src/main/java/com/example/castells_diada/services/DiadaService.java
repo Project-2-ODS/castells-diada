@@ -1,5 +1,6 @@
 package com.example.castells_diada.services;
 
+import com.example.castells_diada.DTOs.DiadaDTO;
 import com.example.castells_diada.exceptions.DiadaNotFoundException;
 import com.example.castells_diada.models.Diada;
 import com.example.castells_diada.repositories.DiadaRepository;
@@ -28,4 +29,11 @@ public class DiadaService {
         }
     }
     //UPDATE
+    public Diada updateDiadaDate(Long id, DiadaDTO diadaDTO){
+        Diada existingDiada = diadaRepository.findById(id).orElseThrow(()->new DiadaNotFoundException("Diada con id: "+id+" no encontrada."));
+        if (diadaDTO.getDiadaDate()!=null){
+            existingDiada.setDiadaDate(diadaDTO.getDiadaDate());
+        }
+        return diadaRepository.save(existingDiada);
+    }
 }
