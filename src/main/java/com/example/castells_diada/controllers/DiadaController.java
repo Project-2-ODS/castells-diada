@@ -33,7 +33,7 @@ public class DiadaController {
             return new ResponseEntity<>(exception.getMessage(), HttpStatus.NOT_FOUND);
         }
     }
-    //UPDATE
+    //UPDATE ONLY DIADA DATE
     @PatchMapping("/{id}")
     public ResponseEntity<?> updateDiadaCapId(@PathVariable Long id,@RequestBody DiadaDTO diadaDTO){
         try {
@@ -41,6 +41,28 @@ public class DiadaController {
             return ResponseEntity.ok(existingDiada);
         }catch (DiadaNotFoundException exception){
             return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body(exception.getMessage());
+        }
+    }
+    //UPDATE ALL INFO
+    @PutMapping("/{id}")
+    public ResponseEntity<?> updateDiadaAllInfo(@PathVariable Long id, @RequestBody Diada diada){
+        try {
+            Diada existingDiada = diadaService.updateDiadaAllInfo(id, diada);
+            return ResponseEntity.ok(existingDiada);
+        }catch (DiadaNotFoundException exception){
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body(exception.getMessage());
+        }
+    }
+    //DELETE
+    @DeleteMapping("/{id}")
+    public ResponseEntity<?> deleteDiada(@PathVariable Long id){
+        try{
+            Diada existingDiada = diadaService.deleteDiada(id);
+            return ResponseEntity.noContent().build();
+        }catch (DiadaNotFoundException exception){
+            return  ResponseEntity.status(HttpStatus.NOT_FOUND)
                     .body(exception.getMessage());
         }
     }

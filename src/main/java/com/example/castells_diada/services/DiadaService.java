@@ -43,9 +43,9 @@ public class DiadaService {
     //UPDATE WITH PUT
     public Diada updateDiadaAllInfo (Long id, Diada diada){
         Diada existingDiada = diadaRepository.findById(id).orElseThrow(()->new DiadaNotFoundException("Diada con id: "+id+", no encontrada."));
-        existingDiada.setName(existingDiada.getName());
-        existingDiada.setDiadaDate(existingDiada.getDiadaDate());
-        existingDiada.setCapId(existingDiada.getCapId());
+        existingDiada.setName(diada.getName());
+        existingDiada.setDiadaDate(diada.getDiadaDate());
+        existingDiada.setCapId(diada.getCapId());
         return diadaRepository.save(existingDiada);
     }
     //DELETE
