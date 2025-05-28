@@ -1,8 +1,10 @@
 package com.example.castells_diada.controllers;
 
 
+import com.example.castells_diada.DTOs.CapFeignDTO;
 import com.example.castells_diada.DTOs.DiadaDTO;
 import com.example.castells_diada.exceptions.DiadaNotFoundException;
+import com.example.castells_diada.feigns.CapFeignClient;
 import com.example.castells_diada.models.Diada;
 import com.example.castells_diada.services.DiadaService;
 import jakarta.validation.Valid;
@@ -11,11 +13,16 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
+import java.util.Map;
+
 @RestController
 @RequestMapping("/api/diada")
 public class DiadaController {
     @Autowired
     DiadaService diadaService;
+    @Autowired
+    CapFeignClient capFeignClient;
 
     //CREATE
     @PostMapping
@@ -28,7 +35,11 @@ public class DiadaController {
     public ResponseEntity<?> getDiadaById(@PathVariable Long id){
         try{
             Diada foundDiada = diadaService.findDiadaById(id);
-            return new ResponseEntity<>(foundDiada, HttpStatus.OK);
+            Map<String,Object> response = new HashMap<>();
+            CapFeignDTO foundCap = capFeignClient.getCapById(foundDiada.getCapId());//TODO: darlo vuelta para que el postman salga DIADA y despues CAP
+            response.put("Diada", foundDiada);
+            response.put("Cap", foundCap);
+            return new ResponseEntity<>(response, HttpStatus.OK);
         }catch (DiadaNotFoundException exception){
             return new ResponseEntity<>(exception.getMessage(), HttpStatus.NOT_FOUND);
         }
